@@ -118,41 +118,48 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             
             if let JSON = response.result.value {
                 
+                let mtp_str = String(describing: JSON)
                 
-                self.iphone_object_arry.removeAll()
+                print(mtp_str)
                 
-                var jsonDic = JSON as! NSDictionary
+                if mtp_str != "{\n}" {
                 
-                let responseData = jsonDic[self.apple_store_code] as! NSDictionary
-                
-                if responseData != nil{
-                
-                
-                    for s in (0..<self.iPhone_model_number_array.count){
-                        
-                        var iphone_object = iPhone_object()
-                        
-                        let responseData1 = responseData[self.iPhone_model_number_array[s]] as! String
-                        
-                        if responseData1 != nil {
-                            iphone_object.result = responseData1
+                    self.iphone_object_arry.removeAll()
+                    
+                    var jsonDic = JSON as! NSDictionary
+                    
+                    let responseData = jsonDic[self.apple_store_code] as! NSDictionary
+                    
+                    if responseData != nil{
+                    
+                    
+                        for s in (0..<self.iPhone_model_number_array.count){
                             
-                            if responseData1 == "NONE" || responseData1 == "null"{
-                                iphone_object.zaiko_joukyou = "x"
+                            var iphone_object = iPhone_object()
+                            
+                            let responseData1 = responseData[self.iPhone_model_number_array[s]] as! String
+                            
+                            if responseData1 != nil {
+                                iphone_object.result = responseData1
                                 
-                            }else {
-                                iphone_object.zaiko_joukyou = "○"
+                                if responseData1 == "NONE" || responseData1 == "null"{
+                                    iphone_object.zaiko_joukyou = "x"
+                                    
+                                }else {
+                                    iphone_object.zaiko_joukyou = "○"
+                                }
+                                iphone_object.iPhone_model_number = self.iPhone_model_number_array[s]
+                                iphone_object.iPhone_name = self.iPhone_name_array[s]
+                                
+                                
+                                self.iphone_object_arry.append(iphone_object)
                             }
-                            iphone_object.iPhone_model_number = self.iPhone_model_number_array[s]
-                            iphone_object.iPhone_name = self.iPhone_name_array[s]
-                            
-                            
-                            self.iphone_object_arry.append(iphone_object)
+
                         }
 
+     
                     }
-
- 
+                    
                 }
                 
                 //配列の再表示
